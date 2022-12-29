@@ -222,7 +222,7 @@ To prove that a problem is $NP-Hard$, we must take a problem that we already kno
 
 
 
-\section{Calculating probabilities under lexicase selection is NP-Hard}
+\section{Calculating probabilities under $\epsilon$ lexicase selection is NP-Hard}
 
 The lexicase selection probabilities problem is not in the set NP. There is no polynomial-sized certificate that could be returned that would allow someone to verify that the assigned probabilities are correct. Thus, the lexicase selection probabilities problem is not NP-Complete. However, we will show that it is NP-Hard.
 
@@ -231,7 +231,7 @@ We will show that . Or, more formally:
 {\sc SAT} $\leq_{P}$ {\sc $\epsilon$-lex-prob-decision} $\leq_{P}$ {\sc lex-prob-decision} $\leq_{P}$ {\sc lex-prob}
 
 \begin{theorem}
-\label{lexicasetheorem}
+\label{elexicasetheorem}
 The {\sc $\epsilon$-lex-prob} problem is NP-Hard.
 \end{theorem}
 
@@ -258,11 +258,66 @@ When $D_{Xi}$ is selected, it eliminates all variable vectors corresponding to $
 
 Once variable assignments have been made, $C_{CiXj}$s can now safely be selected. The focal vector will only have a chance of winning if, for each clause, there is at least one position where the focal vector has a 1 and no variable vectors with 2s remain in contention.
 
+The different objective orderings in lexicase selection can be thought of as a decision tree with $N!$ leaf nodes, each representing a different ordering of objectives. Each level of the tree represents choosing the next objective, and so each node at level $i$ has $N-i$ child nodes (since i objectives have already been selected, there are $N-i$ options remaining).
+
+For the purposes of our reduction, we only care about the portions of this tree in which one of the $D_{Xi}$ positions for each variable is ordered before any of the $C_{CiXj}$ positions. These orderings represent trying all possible combinations of truth assignments to the variables. The focal vector will have a non-zero chance of selection if and only if one of those combinations of truth assignments corresponds to a truth assignment that satisfies the original {\sc SAT} instance. Therefore, this transformation is a valid reduction from {\sc SAT} to {\sc lex-prob}.
+
+This reduction can be done in polynomial time. 
+% TODO: Elaborate
+
+Therefore, {\sc SAT} reduces in polynomial time to {\sc $\epsilon$-lex-prob}, meaning that {\sc $\epsilon$-lex-prob} must be at least as hard as {\sc SAT}. Since {\sc SAT} is $NP$-Complete, {\sc $\epsilon$-lex-prob} must be $NP$-Complete as well.
+
 % Wait, do we need .9s instead of 1s in th $D_{Xi}$? I think we do
 
 \end{proof}
 
+\section{Calculating probabilities under lexicase selection is NP-Hard}
+
+We have shown that {\sc $\epsilon$-lex-prob} is $NP$-Hard. However, that does not necessarily mean that {\sc lex-prob} is $NP$-Hard. Perhaps the inclusion of the $\epsilon$ parameter makes {\sc $\epsilon$-lex-prob} substantially harder. Thus, to prove that {\sc lex-prob} is also $NP$-Hard, we will reduce {\sc $\epsilon$-lex-prob} to {\sc lex-prob} in polynomial time.
+
+\begin{theorem}
+\label{elexicasetheorem}
+The {\sc lex-prob} problem is NP-Hard.
+\end{theorem}
+
+
+\begin{proof}
+
+Given an instance of {\sc $\epsilon$-lex-prob} with $N$ vectors of size $M$ and some value $\epsilon$, we will create an instance of {\sc lex-prob} with $N + N^2M$ vectors of size $NM$. % Double check these numbers
+% Vectors might actually have size NM - M
+% There might be N + N(NM-M) of them
+  
+The key property of $\epsilon$-lexicase is that it makes multiple sets of ties possible within the same objective, depending on which vectors have yet to be eliminated from the population.
+
+Thus, for each objective in our original {\sc $\epsilon$-lex-prob} instance, we will create $N-1$ objectives in our {\sc lex-prob} instance. Each of these objectives will contain only 0s and 1s. We will refer to these objectives as $O_{ij}$, where $i$ is the objective it corresponds to in the {\sc $\epsilon$-lex-prob} instance, and $j$ refers to the id of this objective among the other objectives that also correspond to $i$. Values for $O_{ij}$ will be 1 if they are greater than or equal to the $j$th highest value that any vector in the {\sc $\epsilon$-lex-prob} instance had for objective $i$ minus $\epsilon$. Otherwise they will be 0. We will call this set of vectors the focal vectors.
+
+
+\begin{equation}
+%TODO add step function
+O_{ijk} = 1 if V_{ki} >= S_j - \epsilon else 0
+\end{equation}
+
+By adding these objectives, we insure that every set of vectors that was able to tie on an objective in the original {\sc $\epsilon$-lex-prob} instance will be able to tie on an objective in the new {\sc lex-prob} instance. However, adding these objectives also creates the ability for ties to occur in orders that were impossible in the original {\sc $\epsilon$-lex-prob} instance.
+
+% TODO: Double check number of timing vectors
+To fix this problem, we add $N^2M$ additional ``timing'' vectors, $t_{fij}$. Each of these vectors corresponds to a focal vector ($f$) and an $O_ij$. Each timing vector is identical to its corresponding focal vector, with the exception of the values of objectives $O_{i0}$ through $O_{iJ}$ (i.e. all of the values corresponding to objective $i$ in the original {\sc $\epsilon$-lex-prob} instance). $O_{ij}$ is set to -1. All objectives $O_{ij'<j}$ are set to 0, and all objectives are set to ${ij'<j}$ are set to 2.
+
+This set up insures that in any ordering of objectives where the various objectives $O_{ij}$ are chosen in the wrong order (i.e. an order other than strictly increasing $j$), one of the timing vectors would immediately be selected, as its value of 2 would be higher than any value a focal vector has for that objective. Only by selecting the $O_{ij}$ objectives in increasing order of $j$ can timing vectors for objective set $O_i$ be eliminated.
+
+What if other objectives are selected between two successive objectives $O_{ij-1}$ and $O_{ij}$? This possibility does not actually present a problem. Only one objective in each set $O_{i}$ will ever directly cause a focal vector to be eliminated from consideration. To understand why, it is helpful to consider some properties of the set of objectives $O_{ij}$. As $j$ increases, so do the number of vectors with 1s for this objective. The vectors with 1s for $O_{ij-1}$ are a subset of the vectors with 1s for $O_{ij}$. In other words, as $j$ increases $O_{ij}$ becomes more permissive in which vectors it will allow to persist. If $O_{ij}$ is selected and a vector with a value of 1 for $O_{ij}$ is still eligible for selection, all values with 0s for $O_{ij}$ will be eliminated. Because the vectors that $O_{ij+1}$ could eliminate are a subset of the ones that $O_{ij}$ eliminated, choosing $O_{ij+1}$ after $O_{ij}$ has eliminated vectors from contention will have no effect. 
+
+The only circumstance in which choosing $O_{ij+1}$ after choosing $O_{ij}$ will have an effect is when choosing $O_{ij}$ had no effect because there were no vectors with a value of 1 for $O_{ij}$ that were still eligible to be selected (and thus all remaining vectors tied with a score of 0).
+
+Therefore, only one objective in each set $O_i$ will actually have an effect on selection. Consequently, we do not need to worry about the order that they are selected in beyond requiring that each objective $O_{ij}$ be selected in increasing order of $j$.
+
+Due to the combinatorics involved, the selection probabilities returned by the new instance of {\sc lex-prob} will be different from the probabilities under {\sc $\epsilon$-lex-prob}. Fortunately, we are dealing with the decision versions of these problems, which simply ask whether a vector has a non-zero probability of selection.
+
+\end{proof}
+
+
 \section{Software???}
+
+
 
 \section{Discussion}
 
