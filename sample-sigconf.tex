@@ -571,7 +571,30 @@ Let $S_i$ be a reverse sorted vector of all scores on fitness criterion $i$.
 
 To ensure that the focal vectors can only be selected when appropriate, we must add two more sets of candidate solutions. The first of these are the \textit{presence vectors}. While $\epsilon$-lexicase selection allows multiple sets of ties to occur, the sets of ties that are allowed to occur depend on the solutions still in contention for selection. Specifically, ties on lower scores on a criterion can only occur when candidate solutions with higher scores on that criterion are eliminated before that criterion is chosen. The presence vectors keep track of which solutions are still in contention and prevent focal vectors from being selected on the basis of $O_{ij}$ criteria representing ties that aren't available yet. Presence vectors each correspond to a focal vector that they are recording the presence of. They are identical to their corresponding focal vector, except that they have scores of 2 for any $O_{ij}$ criteria representing a tie that is only possible when that focal vector has been eliminated. Consequently, presence vectors will be eliminated from contention for selection under the same circumstances as their corresponding focal vector. However, they will also prevent any focal vectors from being selected using an ordering of fitness criteria that uses an $O_{ij}$ criterion before it is allowed. $P'$ will have at most $N$ presence vectors - one for every focal vector whose presence invalidates an $O_{ij}$ criterion.
 
-Finally, there are the \textit{timing vectors}. These candidate solutions ensure that at least one $O_{ij}$ criterion representing each of the fitness criteria in $P$ is selected before any of the $E_i$ fitness criteria are selected. The timing vectors have scores of 3 for all $E_i$ fitness criteria, insuring that none of the focal vectors can win when an $E_i$ criterion is chosen too early. Each timing vector corresponds to a specific criterion, $O_i$ in $P$, and has a score of 0 for all $O_{ij}$ criteria corresponding to that criterion. Consequently
+\vspace{2em}
+
+\begin{equation}
+\eqnmarkbox[violet]{fvxy}{PV_{x}(y)} = \begin{cases} 
+                1 & \eqnmarkbox[red]{oij}{y < NM} \text{ }  \& \text{ }  \eqnmarkbox[orange]{px}{P_{x,\lfloor y/N \rfloor}} \geq \eqnmarkbox[magenta]{s}{S_{\lfloor y/N \rfloor, y\%N}} - \eqnmarkbox[red]{eps}{\epsilon} \\
+                0 & \eqnmarkbox[red]{oij2}{y < NM} \text{ }  \& \text{ }  \eqnmarkbox[orange]{px1}{P_{x,\lfloor y/N \rfloor}} < \eqnmarkbox[magenta]{s}{S_{\lfloor y/N \rfloor, y\%N}} - \eqnmarkbox[red]{eps2}{\epsilon} \\
+                0 & \eqnmarkbox[teal]{e2}{\text{otherwise}}
+            \end{cases}
+\end{equation}
+\annotate[yshift=2em]{above,left}{oij}{criterion $y$ is an $O_{ij}$ criterion}
+\annotate[]{below,right}{e}{criterion $y$ is $E_{x}$}
+\annotate[]{below,right}{e2}{criterion $y$ is a different $E_{i}$ criterion}
+\annotate[yshift=2em]{above,right}{px}{$x$th member of $P$'s score \\ \sffamily\footnotesize on corresponding criterion ($O_{\lfloor y/N \rfloor}$)}
+\annotate[yshift=-2em]{below,left}{s}{reverse sorted vector of objective $i$ scores, $k$'th index}
+\annotate[yshift=-1.5em]{below, left}{eps2}{from {\sc $\epsilon$-lex-prob} instance}
+% \annotate[yshift=1em]{above}{e}{from {\sc $\epsilon$-lex-prob}}
+% \annotate[yshift=.8em]{above,left}{v}{$i$th score of $k$th vector of input instance}
+\annotate[yshift=-4em]{below, right}{fvxy}{$j$th value of $i$th focal vector}
+
+\vspace{2em}
+
+Finally, there are the \textit{timing vectors}. These candidate solutions ensure that at least one $O_{ij}$ criterion representing each of the fitness criteria in $P$ is selected before any of the $E_i$ fitness criteria are selected. There are $NM$ timing vectors, and each is associated with both a fitness criterion in $P$ and a focal vector in $P'$. Timing vectors are designed to be eliminated whenever 1) a corresponding focal vector is eliminated, or 2) a corresponding fitness criterion is chosen.
+
+The timing vectors have scores of 3 for all $E_i$ fitness criteria, insuring that none of the focal vectors can win when an $E_i$ criterion is chosen too early. Each timing vector corresponds to a specific criterion, $O_i$ in $P$, and has a score of 0 for all $O_{ij}$ criteria corresponding to that criterion. All other scores in a timing vector are identical to the scores for its corresponding focal vector.
 
 % \begin{equation}
 % \eqnmarkbox[violet]{oijk}{O_{ijk}} = \begin{cases} 
