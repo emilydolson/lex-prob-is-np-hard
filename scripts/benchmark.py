@@ -1,9 +1,10 @@
-import example
+import ec_ecology_toolbox as eco
 import random
 import timeit
+import sys
 
-N = 10
-M = 10
+N = int(sys.argv[1])
+M = int(sys.argv[2])
 
 pop = [[random.randint(0,4) for i in range(M)] for j in range(N)]
 
@@ -12,12 +13,10 @@ def setup():
     pop = [[random.randint(0,4) for i in range(M)] for j in range(N)]
 
 def test():
-    example.LexicaseFitness(pop)
+    eco.LexicaseFitness(pop)
 
-print("N,M,time")
+# print("N,M,time")
 
-for N in range(1, 60):
-    for M in range(1, 60):
-        results = timeit.repeat(test, setup=setup, number=1, repeat=100)
-        for res in results:
-            print(",".join([str(i) for i in [N, M, res]]))
+results = timeit.repeat(test, setup=setup, number=1, repeat=100)
+for res in results:
+    print(",".join([str(i) for i in [N, M, res]]))
