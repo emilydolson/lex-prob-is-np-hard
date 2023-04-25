@@ -1,0 +1,19 @@
+cff-version: 1.1.0
+authors:
+  - family-names: Dolson
+    given-names: Emily
+    orcid: https://orcid.org/0000-0001-8616-4898
+title: Code and supporting information for "Calculating Lexicase Selection Probabilities is NP-Hard"
+version: submitted
+date-released: 2023-04-20
+message: "If you use this software, please cite both the article from preferred-citation and the software itself."
+preferred-citation:
+  authors:
+    - family-names: Dolson
+      given-names: Emily
+  title: "Calculating Lexicase Selection Probabilities is NP-Hard"
+  type: article
+  doi: 10.1145/3583131.3590356
+  conference: Genetic and Evolutionary Computation Conference (GECCO ’23)
+  year: 2023
+  publisher: ACM
