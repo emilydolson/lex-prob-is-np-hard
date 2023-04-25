@@ -14,7 +14,7 @@ def random_eps_to_lex(e):
 
     for i in range(len(pop)):
         converted_p = converted_probs[converted_pop.index(focal_vectors[i])]
-        assert (probs[i] == 0 and converted_p == 0) or (probs[i] > 0 and converted_p > 0)
+        assert ((probs[i] == 0) and (converted_p == 0)) or ((probs[i] > 0) and (converted_p > 0))
 
 
 def test_eps_to_lex():
@@ -79,6 +79,3 @@ def test_sat_to_eps_random():
     prob = eco.LexicaseFitness(pop, .1)
     print(prob[0], s.solve())
     assert (prob[0] != 0) == s.solve()
-
-
-test_sat_to_eps_random()
