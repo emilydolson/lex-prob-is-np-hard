@@ -56,7 +56,7 @@ def convert(population, e):
         # vector and a focal vector
         if 2 in sol:
             # The focal vector shouldn't have any 2s in it
-            focal = [i if i!= 2 else 1 for i in sol]
+            focal = [i if i != 2 else 1 for i in sol]
 
             # Add end criteria
             for i in range(pop_size):
@@ -80,14 +80,13 @@ def convert(population, e):
 
             # Add end criteria
             for i in range(pop_size):
-                # print("i ", i)                
                 if i == j:
                     new_population[j].append(1)
                 else:
                     new_population[j].append(0)
             final_pop.append(new_population[j])
             focal_vectors.append(new_population[j])
-                
+
     # Add timing vectors
     for vec in focal_vectors:
         for obj in range(n_cols):
@@ -103,11 +102,11 @@ def convert(population, e):
 
 if __name__ == "__main__":
     e = .1
-    #pop = [[1,1,4,4],[0,3,3,3],[1,4,0,4],[0,3,1,2]]
-    #pop = [[random.randint(0,4) for i in range(4)] for j in range(4)]
+    # pop = [[1,1,4,4],[0,3,3,3],[1,4,0,4],[0,3,1,2]]
+    # pop = [[random.randint(0,4) for i in range(4)] for j in range(4)]
     pop = [[random.random() for i in range(5)] for j in range(5)]
-    #pop = [[1, .9], [.9,1], [.8, 1.1]]
-    #pop = [[1, .9, .7], [.7, 1, 1], [.8,.8,.9]]
+    # pop = [[1, .9], [.9,1], [.8, 1.1]]
+    # pop = [[1, .9, .7], [.7, 1, 1], [.8,.8,.9]]
     # pop = [[1, 1], [.9, .8]]
     # pop = [[3,1],[2,2],[1,2]]
     # pop = [[1, .9,1.1], [.9,1.1, .9], [1.1,1,1]]
@@ -123,7 +122,8 @@ if __name__ == "__main__":
     for i in range(len(pop)):
         converted_p = converted_probs[converted_pop.index(focal_vectors[i])]
         print(probs[i], converted_p, pop[i], focal_vectors[i])
-        assert (probs[i] == 0 and converted_p == 0) or (probs[i] > 0 and converted_p > 0)
+        assert (probs[i] == 0 and converted_p == 0) or \
+               (probs[i] > 0 and converted_p > 0)
 
     print()
     for i in range(len(converted_pop)):
