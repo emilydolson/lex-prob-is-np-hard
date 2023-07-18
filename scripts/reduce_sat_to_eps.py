@@ -92,7 +92,7 @@ def do_conversion(variables, clauses):
         #    [3 if i < section_2_start else .9 for i in range(vector_len)]
         #solution[section_2_start + var_ind] = 0
         #solution[section_2_start + opposite_ind] = 0
-        population.append(solution)
+        #population.append(solution)
 
     return population
 
