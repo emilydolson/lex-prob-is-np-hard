@@ -1,2 +1,2 @@
-ec-ecology-toolbox==0.0.3
+ec-ecology-toolbox
 python-sat
