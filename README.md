@@ -1,7 +1,7 @@
 # Calculating Lexicase Selection Probabilities is NP-Hard
 
 [![preprint](https://img.shields.io/badge/preprint-arXiv:2301.06724-brightgreen)](https://arxiv.org/abs/2301.06724)
-[![paper](https://img.shields.io/badge/published%20in-GECCO%2023-yellow)]()
+[![paper](https://img.shields.io/badge/published%20in-GECCO%2023-yellow)](https://dl.acm.org/doi/10.1145/3583131.3590356)
 [![Code](https://github.com/emilydolson/lex-prob-is-np-hard/actions/workflows/python-app.yml/badge.svg)](https://github.com/emilydolson/lex-prob-is-np-hard/actions/workflows/python-app.yml)
 [![Code DOI](https://zenodo.org/badge/630644309.svg)](https://zenodo.org/badge/latestdoi/630644309)
 
