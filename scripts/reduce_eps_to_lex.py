@@ -39,7 +39,7 @@ def convert(population, e):
             for j in range(len(curr)):
                 if curr[j] > sorted_col[i]:
                     curr[j] = 2
-                elif curr[j] >= sorted_col[i] - e:
+                elif curr[j] + e > sorted_col[i]:
                     curr[j] = 1
                 else:
                     curr[j] = 0

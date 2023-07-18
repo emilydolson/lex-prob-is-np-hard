@@ -39,7 +39,6 @@ def convert_to_indices(variables, clauses):
 
 def convert(variables, clauses):
     variables, clauses = convert_to_indices(variables, clauses)
-    #print(variables, clauses)
     return do_conversion(variables, clauses)
 
 

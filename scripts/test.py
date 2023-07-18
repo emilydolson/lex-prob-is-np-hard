@@ -30,7 +30,9 @@ def test_sat_to_eps_simple_true():
     clauses = [["X1"], ["!X1", "X2"]]
 
     pop = sat_to_eps.convert(variables, clauses)
-    probs = eco.LexicaseFitness(pop, .1)
+    print(pop)
+    probs = eco.LexicaseFitness(pop, .11)
+    print(probs)
 
     assert probs[0] > 0
 
@@ -40,7 +42,7 @@ def test_sat_to_eps_simple_false():
     clauses = [["X1"], ["!X1", "X2"], ["!X2"]]
 
     pop = sat_to_eps.convert(variables, clauses)
-    probs = eco.LexicaseFitness(pop, .1)
+    probs = eco.LexicaseFitness(pop, .11)
 
     assert probs[0] == 0
 
@@ -71,11 +73,10 @@ def test_sat_to_eps_random():
         clauses.append(clause)
         variables += clause
 
-    variables = list(set(variables))
     print(clauses, variables)
 
     pop = sat_to_eps.convert(variables, clauses)
     print(pop)
-    prob = eco.LexicaseFitness(pop, .1)
+    prob = eco.LexicaseFitness(pop, .11)
     print(prob[0], s.solve())
     assert (prob[0] != 0) == s.solve()
