@@ -39,7 +39,7 @@ def convert_to_indices(variables, clauses):
 
 def convert(variables, clauses):
     variables, clauses = convert_to_indices(variables, clauses)
-    print(variables, clauses)
+    #print(variables, clauses)
     return do_conversion(variables, clauses)
 
 
@@ -89,11 +89,11 @@ def do_conversion(variables, clauses):
             population.append(solution)
 
         # Add timing vectors
-        #solution = \
-        #    [3 if i < section_2_start else .9 for i in range(vector_len)]
-        #solution[section_2_start + var_ind] = 0
-        #solution[section_2_start + opposite_ind] = 0
-        #population.append(solution)
+        solution = \
+            [3 if i < section_2_start else .9 for i in range(vector_len)]
+        solution[section_2_start + var_ind] = 0
+        solution[section_2_start + opposite_ind] = 0
+        population.append(solution)
 
     return population
 
